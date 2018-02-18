@@ -1,0 +1,37 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05 22, 17, 2:18:05 PM
+    Author     : Miko
+*/
+body {
+    font-family: Segoe UI;
+    background-color: royalblue;
+    color: white;
+}
+.box{
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 100px;
+}
+.container-fluid{
+    display: none;
+    color: black;
+}
+.text-center {
+    position: absolute;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    right: 42%;
+}

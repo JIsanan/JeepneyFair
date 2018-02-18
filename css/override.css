@@ -1,0 +1,78 @@
+.dark-primary-color    { background: #0288D1; }
+.default-primary-color { background: #03A9F4; }
+.light-primary-color   { background: #B3E5FC; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #00BCD4; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+
+body{
+	font-family: defont;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+@font-face {
+	font-family: defont;
+	src: url('../font/Aller_Rg.ttf');
+}
+
+@font-face {
+	font-family: defontLt;
+	src: url('../font/Aller_Lt.ttf');
+}
+
+.navbar-brand{
+	color: #0288D1;
+	font-size: 1.15em;
+}
+
+.navbar-default {
+	background-color: white;
+	font-size: 1.1em;
+	border: 0;
+	border-radius: 0;
+}
+
+
+.navbar-nav > li{
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus{
+	background-color: #01B0F0;
+	color: white;
+	border-radius: 5px;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	/*border-bottom: 2px solid #03A9F4;*/
+	color: white;
+	background-color: #03A9F4;
+	border-radius: 5px;
+}
+
+.inputs  input{
+	margin-top: 4%;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="email"],
+input[type="password"], textarea {
+	outline: none;
+	box-shadow:none !important;
+	border:1px solid #ccc !important;
+}
+
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
