@@ -11,20 +11,24 @@ and open the template in the editor.
         <link rel='stylesheet' href='css/bootstrap.css'>
         <style>
             html, body { height: 100%; margin: 0;padding: 0; }
-            #map{ height: 95%;width: 50%;}
+            #map{ height: 95%;width: 60%; float: left;}
+            #result { width: 40%;float: right;}
         </style>
         <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-
-                // Create connection
-                $conn = new mysqli($servername, $username, $password);
-
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                } 
+            $stops=array();
+            require 'PHP_DBValidate.php';
+            $sql="SELECT * FROM direction INNER JOIN stop ON direction.stop_id=stop.stop_id";
+            $result=mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result)>0) {
+                while ($row= mysqli_fetch_assoc($result)) {
+                    array_push($stops, array("route"=>$row["route_id"],
+                                             "name"=>$row["stop_name"], 
+                                             "latitude"=>$row["stop_latitude"],
+                                             "longitude"=>$row["stop_longitude"],
+                                             "direction"=>$row["direction_id"],
+                                             "interchange"=>$row["interchange"]));
+                }
+            }
         ?>
     </head>
     <body>
@@ -53,34 +57,13 @@ and open the template in the editor.
             var map = new google.maps.Map($("#map")[0]);
             // list of points
             var stations = [
-                {lat: 48.9812840, lng: 21.2171920, name: 'Station 1'},
-                {lat: 48.9832841, lng: 21.2176398, name: 'Station 2'},
-                {lat: 48.9856443, lng: 21.2209088, name: 'Station 3'},
-                {lat: 48.9861461, lng: 21.2261563, name: 'Station 4'},
-                {lat: 48.9874682, lng: 21.2294855, name: 'Station 5'},
-                {lat: 48.9909244, lng: 21.2295512, name: 'Station 6'},
-                {lat: 48.9928871, lng: 21.2292352, name: 'Station 7'},
-                {lat: 48.9921334, lng: 21.2246742, name: 'Station 8'},
-                {lat: 48.9943196, lng: 21.2234792, name: 'Station 9'},
-                {lat: 48.9966345, lng: 21.2221262, name: 'Station 10'},
-                {lat: 48.9981191, lng: 21.2271386, name: 'Station 11'},
-                {lat: 49.0009168, lng: 21.2359527, name: 'Station 12'},
-                {lat: 49.0017950, lng: 21.2392890, name: 'Station 13'},
-                {lat: 48.9991912, lng: 21.2398272, name: 'Station 14'},
-                {lat: 48.9959850, lng: 21.2418410, name: 'Station 15'},
-                {lat: 48.9931772, lng: 21.2453901, name: 'Station 16'},
-                {lat: 48.9963512, lng: 21.2525850, name: 'Station 17'},
-                {lat: 48.9985134, lng: 21.2508423, name: 'Station 18'},
-                {lat: 49.0085000, lng: 21.2508000, name: 'Station 19'},
-                {lat: 49.0093000, lng: 21.2528000, name: 'Station 20'},
-                {lat: 49.0103000, lng: 21.2560000, name: 'Station 21'},
-                {lat: 49.0112000, lng: 21.2590000, name: 'Station 22'},
-                {lat: 49.0124000, lng: 21.2620000, name: 'Station 23'},
-                {lat: 49.0135000, lng: 21.2650000, name: 'Station 24'},
-                {lat: 49.0149000, lng: 21.2680000, name: 'Station 25'},
-                {lat: 49.0171000, lng: 21.2710000, name: 'Station 26'},
-                {lat: 49.0198000, lng: 21.2740000, name: 'Station 27'},
-                {lat: 49.0305000, lng: 21.3000000, name: 'Station 28'},
+            <?php
+                for ($x=0; $x<  count($stops); $x++) {
+                        if ($stops[$x]['direction']>=30&&$row['direction']<=48){
+                            echo '{lat:'.$stops[$x]["latitude"].', lng: '.$stops[$x]["longitude"].', name:"'.$stops[$x]["name"].'"},';
+                        }                 
+                }
+            ?>
                 // ... as many other stations as you need
             ];
 
@@ -94,15 +77,24 @@ and open the template in the editor.
                 south: Math.max.apply(null, lats),
             });
 
-            // Show stations on the map as markers
-            for (var i = 0; i < stations.length; i++) {
-                new google.maps.Marker({
-                    position: stations[i],
-                    map: map,
-                    title: stations[i].name
-                });
-            }
-
+//            // Show stations on the map as markers
+//            for (var i = 0; i < stations.length; i++) {
+//                new google.maps.Marker({
+//                    position: stations[0],
+//                    map: map,
+//                    title: stations[0].name
+//                });
+//            }
+            new google.maps.Marker({
+                position: stations[0],
+                map: map,
+                title: stations[0].name
+            });
+            new google.maps.Marker({
+                position: stations[stations.length-1],
+                map: map,
+                title: stations[stations.length-1].name
+            });
             // Divide route to several parts because max stations limit is 25 (23 waypoints + 1 origin + 1 destination)
             for (var i = 0, parts = [], max = 25 - 1; i < stations.length; i = i + max)
                 parts.push(stations.slice(i, i + max + 1));
